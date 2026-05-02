@@ -1,7 +1,7 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Heart, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 export default function RSVPSection() {
   const sectionRef = useRef<HTMLDivElement>(null);

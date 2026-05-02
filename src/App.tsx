@@ -34,7 +34,6 @@ export default function App() {
           >
             <EnvelopeOpening 
               onOpenComplete={handleEnvelopeComplete}
-              coupleInitials="A & R"
             />
           </motion.div>
         )}

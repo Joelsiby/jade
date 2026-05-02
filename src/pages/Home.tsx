@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import EnvelopeIntro from '../components/EnvelopeIntro'
 import '../App.css'
 
 export default function Home() {
@@ -9,7 +8,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen w-full bg-[#FDFBF7]">
       {!introFinished && (
-        <EnvelopeIntro onComplete={() => setIntroFinished(true)} />
+        <div onClick={() => setIntroFinished(true)}>Intro Placeholder (Click to skip)</div>
       )}
 
       {/* Main Content (fades in after intro) */}

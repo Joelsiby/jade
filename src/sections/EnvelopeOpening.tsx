@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 interface EnvelopeOpeningProps {
   onOpenComplete: () => void;
-  coupleInitials?: string;
 }
 
-export default function EnvelopeOpening({ onOpenComplete, coupleInitials = 'A & R' }: EnvelopeOpeningProps) {
+export default function EnvelopeOpening({ onOpenComplete }: EnvelopeOpeningProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isRetrieving, setIsRetrieving] = useState(false);
 
