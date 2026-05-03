@@ -135,9 +135,12 @@ export default function HeroSection() {
         className="absolute inset-0"
         style={{ y: 0 }}
       >
-        <img 
-          src="/hero-bg.jpg" 
-          alt="Wedding venue"
+        <video 
+          src="/hero.MP4" 
+          autoPlay
+          muted
+          loop
+          playsInline
           className="w-full h-full object-cover object-top"
         />
         {/* Gradient overlay for text readability */}
@@ -188,7 +191,7 @@ export default function HeroSection() {
       </div>
 
       {/* Hero text content */}
-      <div className="relative z-20 flex flex-col items-center justify-center min-h-[100dvh] px-6 pt-20 pb-32">
+      <div className="relative z-20 flex flex-col items-center justify-start min-h-[100dvh] px-6 pt-[15vh] pb-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -200,7 +203,7 @@ export default function HeroSection() {
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           >
-            Alexa & Richard
+            Priya & Rohan
           </motion.p>
           
           <motion.p 

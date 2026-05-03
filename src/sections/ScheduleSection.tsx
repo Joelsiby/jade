@@ -2,12 +2,12 @@ import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 
 const events = [
-  { time: '16:30', title: 'Opening of the doors', align: 'right' },
-  { time: '17:00', title: 'Ceremony', align: 'left' },
-  { time: '18:00', title: 'Cocktail and dancing time', align: 'right' },
-  { time: '20:00', title: 'Dinner', align: 'left' },
-  { time: '21:00', title: 'Party and Open Bar', align: 'right' },
-  { time: '23:00', title: 'End of the celebration', align: 'left' },
+  { time: '10:00', title: 'Haldi & Mehndi', align: 'right' },
+  { time: '16:00', title: 'Baraat Assembly', align: 'left' },
+  { time: '18:00', title: 'Varmala & Sunset Cocktail', align: 'right' },
+  { time: '19:30', title: 'Phere (Wedding Ceremony)', align: 'left' },
+  { time: '21:00', title: 'Reception & Dinner', align: 'right' },
+  { time: '23:30', title: 'Vidaai', align: 'left' },
 ];
 
 export default function ScheduleSection() {

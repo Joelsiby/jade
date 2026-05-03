@@ -97,7 +97,7 @@ export default function RSVPSection() {
           transition={{ delay: 0.8, duration: 0.8 }}
         >
           <p className="font-script text-2xl text-[#8b7d6b] mb-2">Hope to see you there!</p>
-          <p className="font-display text-xl text-[#6b5b4e]">Alexa & Richard</p>
+          <p className="font-display text-xl text-[#6b5b4e]">Priya & Rohan</p>
           
           <motion.div
             className="mt-4"

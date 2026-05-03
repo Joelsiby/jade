@@ -21,7 +21,7 @@ export default function VenueSection() {
 
         {/* Venue Info */}
         <motion.a
-          href="https://maps.google.com/?q=Villa+Borghese+Puerto+Vallarta"
+          href="https://maps.google.com/?q=Umaid+Bhawan+Palace+Jodhpur"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-3 mb-6 cursor-pointer hover:opacity-80 transition-opacity"
@@ -37,8 +37,8 @@ export default function VenueSection() {
             <MapPin className="w-5 h-5 text-[#7a9ab8]" />
           </motion.div>
           <div>
-            <p className="font-display text-lg text-[#6b5b4e]">Villa Borghese</p>
-            <p className="font-serif text-sm text-[#8b7d6b]">Address: Puerto Vallarta, MX</p>
+            <p className="font-display text-lg text-[#6b5b4e]">Umaid Bhawan Palace</p>
+            <p className="font-serif text-sm text-[#8b7d6b]">Address: Jodhpur, Rajasthan</p>
           </div>
         </motion.a>
       </div>
@@ -60,7 +60,7 @@ export default function VenueSection() {
         
         {/* Floating location badge */}
         <motion.a
-          href="https://maps.google.com/?q=Villa+Borghese+Puerto+Vallarta"
+          href="https://maps.google.com/?q=Umaid+Bhawan+Palace+Jodhpur"
           target="_blank"
           rel="noopener noreferrer"
           className="absolute bottom-8 left-1/2 -translate-x-1/2 sm:left-8 sm:translate-x-0 glass rounded-full px-6 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/40 transition-colors"
@@ -69,7 +69,7 @@ export default function VenueSection() {
           transition={{ delay: 0.8, duration: 0.6 }}
         >
           <MapPin className="w-5 h-5 text-[#7a9ab8]" />
-          <span className="font-serif text-base sm:text-lg text-[#6b5b4e]">Puerto Vallarta</span>
+          <span className="font-serif text-base sm:text-lg text-[#6b5b4e]">Jodhpur</span>
         </motion.a>
       </motion.div>
     </section>
