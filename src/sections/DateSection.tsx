@@ -11,8 +11,10 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
   const [isScratched, setIsScratched] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawing = useRef(false);
+  const hasInteracted = useRef(false);
 
   const initCanvas = useCallback(() => {
+    if (hasInteracted.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     
@@ -54,6 +56,7 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
   }, [initCanvas]);
 
   const scratch = (clientX: number, clientY: number) => {
+    hasInteracted.current = true;
     if (isScratched) return;
     const canvas = canvasRef.current;
     if (!canvas) return;

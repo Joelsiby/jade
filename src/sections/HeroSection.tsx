@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
 
 interface BirdProps {
@@ -93,42 +93,13 @@ function Cloud({ top, delay, duration, scale, opacity }: CloudProps) {
 }
 
 export default function HeroSection() {
-  const [skyPhase, setSkyPhase] = useState(0); // 0=dusk, 1=afternoon, 2=dawn
   const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Scroll-driven sky phase
-    const handleScroll = () => {
-      if (!heroRef.current) return;
-      const rect = heroRef.current.getBoundingClientRect();
-      const scrollProgress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      
-      if (scrollProgress < 0.33) setSkyPhase(0);
-      else if (scrollProgress < 0.66) setSkyPhase(1);
-      else setSkyPhase(2);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const skyColors = [
-    'linear-gradient(180deg, #f5e6d3 0%, #f0d5c0 30%, #e8d0c8 60%, #faf7f2 100%)', // dusk
-    'linear-gradient(180deg, #e0ecf5 0%, #d5e5f0 40%, #e8f0f5 70%, #faf7f2 100%)', // afternoon
-    'linear-gradient(180deg, #f0e0d0 0%, #f5e8d8 35%, #f8f0e5 65%, #faf7f2 100%)', // dawn
-  ];
 
   return (
     <section 
       ref={heroRef}
-      className="relative w-full min-h-[100dvh] overflow-hidden"
+      className="relative w-full h-[100vh] overflow-hidden bg-[#faf7f2]"
     >
-      {/* Sky background with transition */}
-      <motion.div 
-        className="absolute inset-0"
-        animate={{ background: skyColors[skyPhase] }}
-        transition={{ duration: 1.5, ease: 'easeInOut' }}
-      />
 
       {/* Hero Image with parallax */}
       <motion.div 
@@ -191,7 +162,7 @@ export default function HeroSection() {
       </div>
 
       {/* Hero text content */}
-      <div className="relative z-20 flex flex-col items-center justify-start min-h-[100dvh] px-6 pt-[15vh] pb-0">
+      <div className="relative z-20 flex flex-col items-center justify-start h-[100vh] px-6 pt-[15vh] pb-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
