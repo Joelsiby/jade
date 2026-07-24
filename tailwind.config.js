@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        script: ['Great Vibes', 'cursive'],
-        serif: ['Cormorant Garamond', 'serif'],
+        script: ['Beau Rivage', 'cursive'],
+        serif: ['Jost', 'sans-serif'],
         display: ['Playfair Display', 'serif'],
       },
       colors: {

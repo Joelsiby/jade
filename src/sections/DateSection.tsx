@@ -1,10 +1,54 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { CalendarPlus } from 'lucide-react';
+
+function addWeddingToCalendar() {
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Agin & Aarati Wedding//EN',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    'UID:agin-aarati-wedding-2025@invite',
+    `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
+    'DTSTART:20250914T043000Z',
+    'DTEND:20250914T190000Z',
+    "SUMMARY:Agin & Aarati's Wedding",
+    'LOCATION:Umaid Bhawan Palace\\, Jodhpur\\, Rajasthan',
+    "DESCRIPTION:Join us as we celebrate Agin & Aarati's wedding!",
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'Agin-Aarati-Wedding.ics';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
 
 interface ScratchCardProps {
   value: string;
   label: string;
   delay: number;
+}
+
+let cachedPatternImg: HTMLImageElement | null = null;
+function getPatternImage(onLoad: () => void): HTMLImageElement {
+  if (!cachedPatternImg) {
+    cachedPatternImg = new Image();
+    cachedPatternImg.src = '/texture_paper.jpeg';
+  }
+  if (cachedPatternImg.complete) {
+    onLoad();
+  } else {
+    cachedPatternImg.addEventListener('load', onLoad, { once: true });
+  }
+  return cachedPatternImg;
 }
 
 function ScratchCard({ value, delay }: ScratchCardProps) {
@@ -17,11 +61,10 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
     if (hasInteracted.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Direct offset measurements
     const width = canvas.offsetWidth;
     const height = canvas.offsetHeight;
     if (width === 0) return;
@@ -31,19 +74,39 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
 
-    // Initial fill - Light sky blue matte finish
-    ctx.fillStyle = '#a3c4dc';
+    ctx.fillStyle = '#faf7f2';
     ctx.fillRect(0, 0, width, height);
 
-    // Grain - Subtle matte texture
-    for (let i = 0; i < 400; i++) {
-      ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.08})`;
-      ctx.fillRect(Math.random() * width, Math.random() * height, 1.5, 1.5);
-    }
+    const drawPattern = () => {
+      if (hasInteracted.current) return;
+      const img = cachedPatternImg;
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      // cover-fit crop of the pattern into the card
+      const cardRatio = width / height;
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+      if (imgRatio > cardRatio) {
+        sw = img.naturalHeight * cardRatio;
+        sx = (img.naturalWidth - sw) / 2;
+      } else {
+        sh = img.naturalWidth / cardRatio;
+        sy = (img.naturalHeight - sh) / 2;
+      }
+
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, width, height);
+
+      for (let i = 0; i < 400; i++) {
+        ctx.fillStyle = `rgba(180, 150, 100, ${Math.random() * 0.08})`;
+        ctx.fillRect(Math.random() * width, Math.random() * height, 1.5, 1.5);
+      }
+    };
+
+    getPatternImage(drawPattern);
+    drawPattern();
   }, []);
 
   useEffect(() => {
-    // Multiple attempts to ensure layout completion
     initCanvas();
     const t1 = setTimeout(initCanvas, 50);
     const t2 = setTimeout(initCanvas, 250);
@@ -69,7 +132,7 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 45, 0, Math.PI * 2);
+    ctx.arc(x, y, 35, 0, Math.PI * 2);
     ctx.fill();
 
     if (Math.random() > 0.9) {
@@ -78,7 +141,6 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
       for (let i = 3; i < pixels.length; i += 40) {
         if (pixels[i] === 0) trans++;
       }
-      // Require 45% to be scratched to auto-reveal
       if (trans > (pixels.length / 40) * 0.45) setIsScratched(true);
     }
   };
@@ -99,16 +161,17 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
 
   return (
     <motion.div
-      className="relative w-[110px] sm:w-[160px] aspect-[3/4] rounded-xl overflow-hidden shadow-soft cursor-pointer select-none"
+      className="relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer select-none"
+      style={{ width: '27vw', maxWidth: '150px', boxShadow: '0 6px 20px rgba(0,0,0,0.18)' }}
       initial={{ opacity: 0, rotateY: -90 }}
       whileInView={{ opacity: 1, rotateY: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.05, y: -5 }}
+      whileHover={{ scale: 1.05, y: -3 }}
     >
       {/* Revealed content */}
       <div className="absolute inset-0 bg-white flex flex-col items-center justify-center">
-        <span className="font-display text-4xl sm:text-6xl text-[#6b5b4e]">{value}</span>
+        <span className="font-display leading-none text-[#6b5b4e]" style={{ fontSize: '7vw' }}>{value}</span>
       </div>
 
       {/* Scratch overlay canvas */}
@@ -124,7 +187,6 @@ function ScratchCard({ value, delay }: ScratchCardProps) {
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
       />
-
     </motion.div>
   );
 }
@@ -134,45 +196,65 @@ export default function DateSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section ref={sectionRef} className="relative w-full py-16 sm:py-24 bg-[#faf7f2]">
-      {/* Decorative top */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#faf7f2] to-transparent" />
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden"
+      style={{ aspectRatio: '736 / 1309' }}
+    >
+      {/* Full scale image */}
+      <img
+        src="/save_the_date.png"
+        alt="Date"
+        className="absolute inset-0 w-full h-full object-fill"
+      />
 
-      <div className="relative z-10 flex flex-col items-center px-4">
+      {/*
+        Content sits inside the golden arch frame:
+        - Frame starts ~36% from top, ends ~78% from top
+        - Inner frame width occupies ~12%–88% horizontally
+        We use top/bottom absolute positioning + horizontal padding to stay within the frame
+      */}
+      <div
+        className="absolute left-0 right-0 flex flex-col items-center justify-center"
+        style={{ top: '22%', bottom: '32%', paddingLeft: '4%', paddingRight: '12%', gap: '2vw' }}
+      >
         {/* Title */}
         <motion.p
-          className="font-script text-4xl sm:text-5xl text-[#6b5b4e] mb-3"
-          initial={{ opacity: 0, y: 20 }}
+          className="font-script text-[#7a5c3a] leading-none"
+          style={{ fontSize: '8.5vw' }}
+          initial={{ opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          The Date
+          Save The Date
         </motion.p>
 
         <motion.div
-          className="flex items-center gap-2 text-[#8b7d6b] text-sm mb-10"
+          className="flex items-center text-[#9b7a4a] font-serif tracking-wider"
+          style={{ gap: '1.2vw', fontSize: '3.2vw' }}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          <span className="text-[#d4af37]">&#10022;</span>
-          <span className="font-serif tracking-wider">Scratch to reveal the date</span>
-          <span className="text-[#d4af37]">&#10022;</span>
+          <span className="text-[#c9a84c]">&#10022;</span>
+          <span>Scratch to reveal the date</span>
+          <span className="text-[#c9a84c]">&#10022;</span>
         </motion.div>
 
         {/* Scratch cards */}
-        <div className="flex gap-4 sm:gap-8">
+        <div className="flex" style={{ gap: '2.5vw', marginTop: '4vw' }}>
           <ScratchCard value="14" label="Day" delay={0.2} />
           <ScratchCard value="Sep" label="Month" delay={0.4} />
           <ScratchCard value="2025" label="Year" delay={0.6} />
         </div>
 
         {/* Labels */}
-        <div className="flex gap-4 sm:gap-8 mt-4">
+        <div className="flex" style={{ gap: '2.5vw' }}>
           {['DAY', 'MONTH', 'YEAR'].map((label, i) => (
             <motion.span
               key={label}
-              className="w-[110px] sm:w-[160px] text-center text-xs tracking-[0.1em] sm:tracking-[0.2em] text-[#9b8b7a] font-serif uppercase"
+              className="text-center font-serif uppercase text-[#9b7a4a]"
+              style={{ width: '27vw', maxWidth: '150px', fontSize: '3vw', letterSpacing: '0.15em' }}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.8 + i * 0.1, duration: 0.6 }}
@@ -181,6 +263,23 @@ export default function DateSection() {
             </motion.span>
           ))}
         </div>
+
+        {/* Add to calendar */}
+        <motion.button
+          onClick={addWeddingToCalendar}
+          className="flex items-center text-[#7a5c3a] font-serif tracking-wider border border-[#c9a84c]/50 rounded-full cursor-pointer hover:bg-[#c9a84c]/10 transition-colors"
+          style={{ gap: '1.5vw', fontSize: '2.8vw', marginTop: '4vw', marginLeft: '30vw', padding: '2vw 4vw' }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: [10, 0, 0, -8, 0] } : {}}
+          transition={{
+            opacity: { delay: 1.1, duration: 0.4 },
+            y: { delay: 1.1, duration: 2, times: [0, 0.2, 0.5, 0.75, 1], repeat: Infinity, repeatDelay: 0.6 },
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <CalendarPlus style={{ width: '3.5vw', height: '3.5vw' }} />
+          <span>Add to Calendar</span>
+        </motion.button>
       </div>
     </section>
   );

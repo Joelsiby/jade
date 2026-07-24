@@ -2,76 +2,77 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 
+const VENUE_NAME = 'Krishna Inn Hotel';
+const VENUE_ADDRESS = 'KRISHNA INN, GURUVAYOOR (Star Hotel), East Nada, Guruvayur, Kerala 680101';
+
+function getMapsUrl(address: string) {
+  const query = encodeURIComponent(address);
+  const isApple = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/.test(navigator.userAgent);
+  return isApple ? `https://maps.apple.com/?q=${query}` : `https://maps.google.com/?q=${query}`;
+}
+
 export default function VenueSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const mapsUrl = getMapsUrl(VENUE_ADDRESS);
 
   return (
-    <section ref={sectionRef} className="relative w-full py-16 sm:py-24 bg-[#faf7f2]">
-      <div className="relative z-10 flex flex-col items-center px-6">
+    <section ref={sectionRef} className="relative w-full h-[80vh] sm:h-[90vh] overflow-hidden">
+      {/* Background image */}
+      <img
+        src="/venue.png"
+        alt="Wedding venue"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-start h-full pt-24 sm:pt-32 px-6 translate-x-12 sm:translate-x-16">
         {/* Title */}
         <motion.p
-          className="font-script text-4xl sm:text-5xl text-[#6b5b4e] mb-8"
+          className="font-script text-4xl sm:text-6xl text-[#D4AF37] drop-shadow-lg mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          Wedding venue
+          Wedding Venue
         </motion.p>
 
         {/* Venue Info */}
         <motion.a
-          href="https://maps.google.com/?q=Umaid+Bhawan+Palace+Jodhpur"
+          href={mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 mb-6 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center gap-3 mb-4 cursor-pointer hover:opacity-80 transition-opacity"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <motion.div
-            className="w-10 h-10 rounded-full bg-[#c5d5e4]/50 flex items-center justify-center"
-            whileHover={{ scale: 1.1, rotate: 10 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <MapPin className="w-5 h-5 text-[#7a9ab8]" />
-          </motion.div>
+          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <MapPin className="w-5 h-5 text-[#D4AF37]" />
+          </div>
           <div>
-            <p className="font-display text-lg text-[#6b5b4e]">Umaid Bhawan Palace</p>
-            <p className="font-serif text-sm text-[#8b7d6b]">Address: Jodhpur, Rajasthan</p>
+            <p className="font-display text-lg text-[#D4AF37] drop-shadow">{VENUE_NAME}</p>
+            <p className="font-serif text-sm text-[#D4AF37]/80">Guruvayoor, Kerala</p>
           </div>
         </motion.a>
-      </div>
 
-      {/* Venue Image (Full Bleed) */}
-      <motion.div
-        className="relative w-full overflow-hidden shadow-soft"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ delay: 0.4, duration: 1 }}
-      >
-        <img
-          src="/venue.jpg"
-          alt="Wedding venue"
-          className="w-full h-[50vh] sm:h-[70vh] object-cover"
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#faf7f2] via-transparent to-transparent opacity-80" />
-        
         {/* Floating location badge */}
         <motion.a
-          href="https://maps.google.com/?q=Umaid+Bhawan+Palace+Jodhpur"
+          href={mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 sm:left-8 sm:translate-x-0 glass rounded-full px-6 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/40 transition-colors"
+          className="glass rounded-full px-6 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/40 transition-colors"
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          animate={isInView ? { opacity: 1, y: [20, 0, 0, -8, 0] } : {}}
+          transition={{
+            opacity: { delay: 0.5, duration: 0.4 },
+            y: { delay: 0.5, duration: 2, times: [0, 0.2, 0.5, 0.75, 1], repeat: Infinity, repeatDelay: 0.6 },
+          }}
         >
-          <MapPin className="w-5 h-5 text-[#7a9ab8]" />
-          <span className="font-serif text-base sm:text-lg text-[#6b5b4e]">Jodhpur</span>
+          <MapPin className="w-5 h-5 text-[#D4AF37]" />
+          <span className="font-serif text-base sm:text-lg text-[#D4AF37]">View on Maps</span>
         </motion.a>
-      </motion.div>
+      </div>
     </section>
   );
 }

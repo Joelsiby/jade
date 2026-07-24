@@ -3,10 +3,13 @@ import { motion, useInView } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 
 const dressImages = [
-  '/dress1.jpg',
-  '/dress2.jpg',
-  '/dress3.jpg',
-  '/dress4.jpg',
+  '/couple_img_1.jpeg',
+  '/couple_img_2.jpeg',
+  '/couple_img_3.jpeg',
+  '/couple_img_4.jpeg',
+  '/couple_img_5.jpeg',
+  '/couple_img_6.jpeg',
+  '/couple_img_7.jpeg',
 ];
 
 const colorSwatches = [
@@ -38,16 +41,18 @@ export default function DressCodeSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          Dress code
+          Be Part of Our Moment
         </motion.p>
 
         <motion.p
-          className="font-serif text-center text-[#8b7d6b] mb-8 max-w-xs"
+          className="font-serif text-center text-[#8b7d6b] mb-8 max-w-xs leading-relaxed"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          We would be very happy if your outfit is in the colours of the wedding theme.
+          A few of our favourite moments together.
+          <br />
+          We can't wait to make more memories with you by our side.
         </motion.p>
 
         {/* Scroll hint */}
@@ -92,6 +97,16 @@ export default function DressCodeSection() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* The Dress heading */}
+        <motion.p
+          className="font-script text-3xl sm:text-4xl text-[#6b5b4e] mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        >
+          The Dress
+        </motion.p>
 
         {/* Color swatches */}
         <motion.div

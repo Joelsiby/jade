@@ -26,7 +26,17 @@ export default function RSVPSection() {
   };
 
   return (
-    <section ref={sectionRef} className="relative w-full py-16 sm:py-24 bg-[#faf7f2]">
+    <section ref={sectionRef} className="relative w-full py-16 sm:py-24 bg-[#faf7f2] overflow-hidden">
+      {/* Decorative flower, connected to the top-right border */}
+      <motion.img
+        src="/flower1.png"
+        alt=""
+        className="absolute top-0 right-0 w-28 sm:w-40 -translate-y-1/2 pointer-events-none select-none"
+        initial={{ opacity: 0, y: -10 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+      />
+
       <div className="relative z-10 flex flex-col items-center px-6">
         {/* Title */}
         <motion.p
@@ -97,7 +107,7 @@ export default function RSVPSection() {
           transition={{ delay: 0.8, duration: 0.8 }}
         >
           <p className="font-script text-2xl text-[#8b7d6b] mb-2">Hope to see you there!</p>
-          <p className="font-display text-xl text-[#6b5b4e]">Priya & Rohan</p>
+          <p className="font-display text-xl text-[#6b5b4e]">Agin & Aarati</p>
           
           <motion.div
             className="mt-4"

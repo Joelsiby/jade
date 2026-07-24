@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import EnvelopeOpening from './sections/EnvelopeOpening';
 import LandingPage from './sections/LandingPage';
+import MusicButton from './components/MusicButton';
 
 export default function App() {
   const [showEnvelope, setShowEnvelope] = useState(true);
@@ -22,6 +23,7 @@ export default function App() {
 
       {/* Landing page is always rendered underneath */}
       <LandingPage />
+      <MusicButton />
 
       {/* Envelope acts as a z-index overlay and unmounts when complete */}
       <AnimatePresence>

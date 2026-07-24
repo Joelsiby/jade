@@ -10,20 +10,15 @@ export default function FooterSection() {
       <div className="relative z-10 flex flex-col items-center w-full">
         {/* Couple Image (Full Bleed) */}
         <motion.div
-          className="relative w-full overflow-hidden shadow-soft"
+          className="relative w-full overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <img
-            src="/couple.jpg"
-           
-            className="w-full h-[60vh] sm:h-[80vh] object-cover"
+            src="/footer_img.png"
+            className="w-full h-[60vh] sm:h-[80vh] object-cover object-top"
           />
-          
-          {/* Soft gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#faf7f2] via-[#faf7f2]/10 to-transparent opacity-90" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#faf7f2]/30 via-transparent to-transparent" />
           
           {/* Bottom text overlay */}
           <motion.div

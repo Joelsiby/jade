@@ -66,9 +66,9 @@ export default function LandingPage() {
       <div className="animate-section">
         <LetterSection />
       </div>
-      <div className="animate-section">
+      {/* <div className="animate-section">
         <ScheduleSection />
-      </div>
+      </div> */}
       <div className="animate-section">
         <VenueSection />
       </div>

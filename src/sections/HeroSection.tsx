@@ -101,21 +101,16 @@ export default function HeroSection() {
       className="relative w-full h-[100vh] overflow-hidden bg-[#faf7f2]"
     >
 
-      {/* Hero Image with parallax */}
+      {/* Hero Image */}
       <motion.div 
         className="absolute inset-0"
         style={{ y: 0 }}
       >
-        <video 
-          src="/hero.MP4" 
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover object-top"
+        <img 
+          src="/Hero_image.png" 
+          alt="Hero"
+          className="w-full h-full object-fill"
         />
-        {/* Gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#faf7f2]" />
       </motion.div>
 
       {/* Animated birds */}
@@ -174,7 +169,7 @@ export default function HeroSection() {
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           >
-            Priya & Rohan
+            Agin & Aarati
           </motion.p>
           
           <motion.p 
